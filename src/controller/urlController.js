@@ -1,7 +1,6 @@
 const urlId = require('short-id')
 const urlModel = require('../model/urlModel')
 const axios = require('axios')
-const { json } = require('body-parser')
 const index = require("../index")
 
  
