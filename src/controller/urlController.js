@@ -10,6 +10,8 @@ const index = require("../index")
 const urlShorter = async function (req, res) {
     try {
         let origUrl = req.body.longUrl;
+        console.log(origUrl)
+        
         
         if (!origUrl) {
             return res.status(400).send({ status: false, message: "please Enter original URL in body" })
@@ -40,7 +42,8 @@ const urlShorter = async function (req, res) {
             urlCode: urlCode
         }
 
-        let urlDetails = await urlModel.create(obj)
+         await urlModel.create(obj)
+
         return res.status(201).send({ status: true, data: obj })
     } catch (err) {
         return res.status(500).send({ satus: false, messege: err.message })
@@ -74,7 +77,7 @@ let redirectUrl = async function (req, res) {
         let cachedurlData = await index.GET_ASYNC(`${req.params.urlCode}`)
       
         cachedurlData= JSON.parse(cachedurlData)
-      
+    
         if(cachedurlData) {
             return res.status(302).redirect(cachedurlData.longUrl)
         } else  {
@@ -86,7 +89,10 @@ let redirectUrl = async function (req, res) {
             
           await index.SET_ASYNC(`${req.params.urlCode}`,24*60*60, JSON.stringify(origUrl))
           return res.status(302).redirect(origUrl.longUrl);
+         
         }
+
+       
         
       
 
